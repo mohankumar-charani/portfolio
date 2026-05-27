@@ -14,6 +14,9 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata = {
   title: "Mohan Kumar | Full Stack Developer & SaaS Engineer",
   description: "Portfolio of Mohan Kumar, Full Stack Developer specializing in React, Spring Boot, SaaS Platforms, and Modern UI Engineering.",
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({ children }) {
