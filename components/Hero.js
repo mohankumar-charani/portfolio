@@ -40,13 +40,13 @@ export default function Hero() {
           {/* Trust Badges */}
           <div className="flex flex-wrap gap-3">
             <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-white flex items-center shadow-sm">
-              <span className="mr-2"></span> Available for Freelance
+              Available for Freelance
             </span>
             <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-white flex items-center shadow-sm">
-              <span className="mr-2"></span> Fast Delivery
+              Fast Delivery
             </span>
             <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-white flex items-center shadow-sm">
-              <span className="mr-2"></span> Startup Ready
+              Startup Ready
             </span>
           </div>
 
