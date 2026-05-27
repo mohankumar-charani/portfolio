@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Send, MessageCircle } from "lucide-react";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { Send, MessageCircle } from "lucide-react";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { useState } from "react";
 
 export default function Contact() {
@@ -79,8 +79,8 @@ export default function Contact() {
               
               <div className="space-y-6">
                 <a href="mailto:mohankumar.itwork@gmail.com" className="flex items-center text-secondary-text hover:text-accent-cyan transition-colors group">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                    <Mail className="w-5 h-5 text-white" />
+                  <div className="w-12 h-12 aspect-square rounded-full glass flex items-center justify-center mr-4 shrink-0 group-hover:scale-110 transition-transform">
+                    <FaEnvelope className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">Email Me</p>
@@ -89,7 +89,7 @@ export default function Contact() {
                 </a>
 
                 <a href="https://www.linkedin.com/in/mohankumar-parise/" target="_blank" rel="noopener noreferrer" className="flex items-center text-secondary-text hover:text-accent-blue transition-colors group">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 aspect-square rounded-full glass flex items-center justify-center mr-4 shrink-0 group-hover:scale-110 transition-transform">
                     <FaLinkedin className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -99,7 +99,7 @@ export default function Contact() {
                 </a>
 
                 <a href="https://github.com/PariseMohankumar" target="_blank" rel="noopener noreferrer" className="flex items-center text-secondary-text hover:text-accent-purple transition-colors group">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 aspect-square rounded-full glass flex items-center justify-center mr-4 shrink-0 group-hover:scale-110 transition-transform">
                     <FaGithub className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -111,13 +111,16 @@ export default function Contact() {
 
               <div className="mt-8 pt-8 border-t border-white/10">
                 <a 
-                  href="https://wa.me/1234567890" // Replace with actual number
+                  href="https://wa.me/919642123106"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full py-4 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-[#25D366]/20 hover:border-[#25D366]/50 transition-all group"
+                  className="flex flex-col items-center justify-center w-full py-4 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-[#25D366]/20 hover:border-[#25D366]/50 transition-all group"
                 >
-                  <MessageCircle className="w-5 h-5 mr-2 text-[#25D366] group-hover:scale-110 transition-transform" />
-                  Chat on WhatsApp
+                  <span className="flex items-center">
+                    <MessageCircle className="w-5 h-5 mr-2 text-[#25D366] group-hover:scale-110 transition-transform" />
+                    Chat on WhatsApp
+                  </span>
+                  {/* <span className="text-xs text-secondary-text mt-1 group-hover:text-[#25D366]/70 transition-colors">+91 96421 23106</span> */}
                 </a>
               </div>
             </div>
