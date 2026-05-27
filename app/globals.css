@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050816;
+  --color-secondary: #0F172A;
+  --color-primary-text: #F8FAFC;
+  --color-secondary-text: #94A3B8;
+  
+  --color-accent-purple: #9333ea;
+  --color-accent-blue: #2563eb;
+  --color-accent-cyan: #06b6d4;
+
+  --font-sans: var(--font-inter), sans-serif;
+  --font-display: var(--font-satoshi), var(--font-jakarta), sans-serif;
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-purple via-accent-blue to-accent-cyan;
+  }
+  
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-accent-purple via-accent-blue to-accent-cyan;
+  }
+
+  .glass {
+    @apply bg-secondary/40 backdrop-blur-md border border-white/10;
+  }
+  
+  .glass-card {
+    @apply bg-secondary/30 backdrop-blur-lg border border-white/5 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+  }
+
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to right, var(--color-accent-purple), var(--color-accent-blue), var(--color-accent-cyan));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-blue);
+}
+
+::selection {
+  background-color: var(--color-accent-purple);
+  color: #fff;
+}
