@@ -48,7 +48,7 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className="py-24 relative bg-secondary/10">
+    <section id="services" className="py-12 md:py-24 relative bg-secondary/10">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       
       <div className="max-w-7xl mx-auto px-6">

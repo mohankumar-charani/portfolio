@@ -26,7 +26,7 @@ export default function Testimonials() {
   ];
 
   return (
-    <section id="testimonials" className="py-24 relative">
+    <section id="testimonials" className="py-12 md:py-24 relative">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

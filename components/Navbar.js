@@ -270,70 +270,97 @@ export default function Navbar() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 md:hidden flex flex-col"
             style={{
-              /* Reliable dark background that works on ALL real devices */
-              backgroundColor: "rgba(4, 6, 18, 0.92)",
-              /* Blur only where supported (Chrome 76+, Safari 14+) */
+              backgroundColor: "rgba(4, 6, 18, 0.96)",
               WebkitBackdropFilter: "blur(20px) saturate(180%)",
               backdropFilter: "blur(20px) saturate(180%)",
-              /* GPU layer promotion — prevents blur drops on Android Chrome */
               willChange: "opacity",
               transform: "translateZ(0)",
               backfaceVisibility: "hidden",
               isolation: "isolate",
             }}
           >
-            {/* Inner glass card keeps content readable even when blur unsupported */}
-            <div className="flex flex-col h-full px-6 pt-24 pb-10">
-              <div className="flex-1 flex items-center justify-center">
-                <div className="w-full max-w-sm space-y-3">
-                  {navLinks.map((link, i) => (
-                    <motion.button
-                      key={link.href}
-                      custom={i}
-                      variants={itemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      onClick={() => navigateToSection(link.href)}
-                      className={`
-                        w-full rounded-2xl px-6 py-4 text-center text-lg font-medium
-                        transition-all duration-300
-                        border
-                        ${activeSection === link.href
-                          ? "bg-white/10 text-white border-white/20 shadow-[0_0_24px_rgba(59,130,246,0.2)]"
-                          : "text-white/70 border-white/[0.06] hover:bg-white/[0.06] hover:text-white"
-                        }
-                      `}
-                    >
-                      {link.name}
-                    </motion.button>
-                  ))}
+            {/* ── Top bar: logo left, close button right ── */}
+            <div className="flex items-center justify-between px-6 py-5 shrink-0"
+              style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <button
+                onClick={() => navigateToSection("#home")}
+                className="text-2xl font-bold tracking-tight"
+              >
+                <span className="text-gradient">MK</span>
+              </button>
 
-                  {/* Divider */}
-                  <div className="h-px w-full bg-white/[0.06] my-2" />
+              <button
+                onClick={handleCloseMenu}
+                aria-label="Close menu"
+                className="text-white rounded-xl p-2 transition-colors duration-200"
+                style={{
+                  background: "rgba(255,255,255,0.10)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                <motion.span
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  transition={{ duration: 0.18 }}
+                  className="block"
+                >
+                  <X size={22} />
+                </motion.span>
+              </button>
+            </div>
 
-                  {/* CTA */}
+            {/* ── Scrollable nav items ── */}
+            <div className="flex-1 overflow-y-auto px-6 py-6">
+              <div className="flex flex-col gap-3 w-full">
+                {navLinks.map((link, i) => (
                   <motion.button
-                    custom={navLinks.length}
+                    key={link.href}
+                    custom={i}
                     variants={itemVariants}
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    onClick={() => navigateToSection("#contact")}
-                    className="
-                      w-full rounded-2xl py-4 text-lg font-semibold text-white
-                      bg-gradient-to-r from-blue-500 to-violet-500
-                      shadow-[0_0_30px_rgba(99,102,241,0.4)]
-                      hover:shadow-[0_0_40px_rgba(99,102,241,0.6)]
-                      transition-all duration-300
-                    "
+                    onClick={() => navigateToSection(link.href)}
+                    className={`
+                      w-full rounded-2xl px-6 py-4 text-center text-lg font-medium
+                      transition-all duration-300 border
+                      ${activeSection === link.href
+                        ? "bg-white/10 text-white border-white/20 shadow-[0_0_24px_rgba(59,130,246,0.2)]"
+                        : "text-white/70 border-white/[0.06] hover:bg-white/[0.06] hover:text-white"
+                      }
+                    `}
                   >
-                    Hire Me
+                    {link.name}
                   </motion.button>
-                </div>
+                ))}
               </div>
+            </div>
+
+            {/* ── Fixed bottom CTA ── */}
+            <div className="shrink-0 px-6 pb-8 pt-4"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <motion.button
+                custom={navLinks.length}
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                onClick={() => navigateToSection("#contact")}
+                className="
+                  w-full rounded-2xl py-4 text-lg font-semibold text-white
+                  transition-all duration-300
+                "
+                style={{
+                  background: "linear-gradient(135deg, #06b6d4 0%, #8b5cf6 50%, #3b82f6 100%)",
+                  boxShadow: "0 0 32px rgba(139,92,246,0.45), 0 0 64px rgba(6,182,212,0.15)",
+                }}
+              >
+                Hire Me
+              </motion.button>
             </div>
           </motion.div>
         )}
@@ -348,7 +375,7 @@ export default function Navbar() {
           scrolled
             ? "py-4 border-b border-white/[0.06]"
             : "py-6 bg-transparent"
-        }`}
+        } ${isOpen ? "pointer-events-none md:pointer-events-auto" : ""}`}
         style={scrolled ? {
           background: "rgba(5, 8, 22, 0.7)",
           WebkitBackdropFilter: "blur(24px)",
@@ -356,10 +383,12 @@ export default function Navbar() {
         } : {}}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* LOGO */}
+          {/* LOGO — hidden on mobile while overlay is open (overlay has its own) */}
           <button
             onClick={() => navigateToSection("#home")}
-            className="text-2xl font-bold tracking-tight"
+            className={`text-2xl font-bold tracking-tight transition-opacity duration-200 ${
+              isOpen ? "opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto" : ""
+            }`}
           >
             <span className="text-gradient">MK</span>
           </button>
@@ -388,57 +417,41 @@ export default function Navbar() {
           <div className="hidden md:flex">
             <button
               onClick={() => navigateToSection("#contact")}
-              className="glow-border relative inline-flex h-10 items-center justify-center rounded-lg bg-secondary px-6 font-medium text-white transition-transform hover:scale-105"
+              className="
+                relative inline-flex h-10 items-center justify-center rounded-xl px-6
+                font-semibold text-white text-sm tracking-wide
+                transition-all duration-300 hover:scale-105 active:scale-95
+              "
+              style={{
+                background: "linear-gradient(135deg, #06b6d4 0%, #8b5cf6 55%, #3b82f6 100%)",
+                boxShadow: "0 0 20px rgba(139,92,246,0.4), 0 0 40px rgba(6,182,212,0.15)",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.boxShadow =
+                  "0 0 28px rgba(139,92,246,0.6), 0 0 56px rgba(6,182,212,0.25)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.boxShadow =
+                  "0 0 20px rgba(139,92,246,0.4), 0 0 40px rgba(6,182,212,0.15)";
+              }}
             >
               Hire Me
             </button>
           </div>
 
-          {/* MOBILE HAMBURGER — z-[60] so it floats above the overlay */}
+          {/* MOBILE HAMBURGER — hidden when overlay is open (overlay has its own X) */}
           <button
-            onClick={() => {
-              if (isOpen) {
-                handleCloseMenu();
-              } else {
-                setIsOpen(true);
-              }
-            }}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="
-              md:hidden relative z-[60]
-              text-white rounded-xl p-2
-              transition-colors duration-200
-            "
+            onClick={() => setIsOpen(true)}
+            aria-label="Open menu"
+            className={`${
+              isOpen ? "hidden" : "md:hidden"
+            } relative z-[60] text-white rounded-xl p-2 transition-colors duration-200`}
             style={{
-              background: isOpen ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.04)",
+              background: "rgba(255,255,255,0.04)",
               border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
-            <AnimatePresence mode="wait" initial={false}>
-              {isOpen ? (
-                <motion.span
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                  className="block"
-                >
-                  <X size={24} />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="open"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                  className="block"
-                >
-                  <Menu size={24} />
-                </motion.span>
-              )}
-            </AnimatePresence>
+            <Menu size={24} />
           </button>
         </div>
       </motion.nav>

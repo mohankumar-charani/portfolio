@@ -46,16 +46,49 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center z-[100]">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 1, 0.5],
-          }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-16 h-16 border-t-2 border-accent-cyan rounded-full border-solid animate-spin mb-4"
-        />
-        <h2 className="text-xl font-display font-bold text-white tracking-widest uppercase">
+      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center z-[100] gap-6">
+
+        {/* Spinner + MK logo stacked */}
+        <div className="relative flex items-center justify-center w-24 h-24">
+
+          {/* Outer glow pulse */}
+          <motion.div
+            animate={{ scale: [1, 1.35, 1], opacity: [0.25, 0.05, 0.25] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(6,182,212,0.35) 0%, rgba(139,92,246,0.15) 60%, transparent 80%)",
+            }}
+          />
+
+          {/* Spinning ring */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 rounded-full"
+            style={{
+              border: "2px solid transparent",
+              borderTopColor: "#06b6d4",
+              borderRightColor: "rgba(139,92,246,0.4)",
+            }}
+          />
+
+          {/* MK logo centered inside */}
+          <span
+            className="text-2xl font-display font-bold relative z-10"
+            style={{
+              background: "linear-gradient(135deg, #06b6d4, #8b5cf6)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            MK
+          </span>
+        </div>
+
+        {/* Initializing text */}
+        <h2 className="text-base font-display font-bold text-white tracking-widest uppercase">
           Initializing<span className="text-accent-cyan">.</span><span className="text-accent-blue">.</span><span className="text-accent-purple">.</span>
         </h2>
       </div>
