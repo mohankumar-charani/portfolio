@@ -8,7 +8,18 @@ import {
 } from "react";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  Home, 
+  User, 
+  Cpu, 
+  Briefcase, 
+  Code2, 
+  CreditCard, 
+  Mail, 
+  ArrowUpRight 
+} from "lucide-react";
 
 export default function Navbar() {
   // ----------------------------------------
@@ -34,13 +45,13 @@ export default function Navbar() {
 
   const navLinks = useMemo(
     () => [
-      { name: "Home", href: "#home" },
-      { name: "About", href: "#about" },
-      { name: "Skills", href: "#skills" },
-      { name: "Services", href: "#services" },
-      { name: "Projects", href: "#projects" },
-      { name: "Pricing", href: "#pricing" },
-      { name: "Contact", href: "#contact" },
+      { name: "Home", href: "#home", icon: Home, gradient: "from-blue-500/20 to-cyan-500/20" },
+      { name: "About", href: "#about", icon: User, gradient: "from-purple-500/20 to-pink-500/20" },
+      { name: "Skills", href: "#skills", icon: Cpu, gradient: "from-cyan-500/20 to-emerald-500/20" },
+      { name: "Services", href: "#services", icon: Briefcase, gradient: "from-violet-500/20 to-fuchsia-500/20" },
+      { name: "Projects", href: "#projects", icon: Code2, gradient: "from-blue-500/20 to-indigo-500/20" },
+      { name: "Pricing", href: "#pricing", icon: CreditCard, gradient: "from-pink-500/20 to-rose-500/20" },
+      { name: "Contact", href: "#contact", icon: Mail, gradient: "from-amber-500/20 to-orange-500/20" },
     ],
     []
   );
@@ -270,19 +281,23 @@ export default function Navbar() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 z-40 md:hidden flex flex-col"
+            className="fixed inset-0 z-40 md:hidden flex flex-col overflow-hidden"
             style={{
-              backgroundColor: "rgba(4, 6, 18, 0.96)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)",
-              backdropFilter: "blur(20px) saturate(180%)",
+              backgroundColor: "#050816",
+              WebkitBackdropFilter: "blur(30px) saturate(180%)",
+              backdropFilter: "blur(30px) saturate(180%)",
               willChange: "opacity",
               transform: "translateZ(0)",
               backfaceVisibility: "hidden",
               isolation: "isolate",
             }}
           >
+            {/* ── Background Radial Glows (Futuristic Apple/Vercel Vibe) ── */}
+            <div className="absolute top-[-10%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-accent-purple/15 blur-[120px] pointer-events-none z-0" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-accent-cyan/10 blur-[120px] pointer-events-none z-0" />
+
             {/* ── Top bar: logo left, close button right ── */}
-            <div className="flex items-center justify-between px-6 py-5 shrink-0"
+            <div className="flex items-center justify-between px-6 py-5 shrink-0 z-10"
               style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
             >
               <button
@@ -295,10 +310,11 @@ export default function Navbar() {
               <button
                 onClick={handleCloseMenu}
                 aria-label="Close menu"
-                className="text-white rounded-xl p-2 transition-colors duration-200"
+                className="text-white rounded-2xl p-2.5 transition-all duration-300 active:scale-95"
                 style={{
-                  background: "rgba(255,255,255,0.10)",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05)",
                 }}
               >
                 <motion.span
@@ -307,41 +323,90 @@ export default function Navbar() {
                   transition={{ duration: 0.18 }}
                   className="block"
                 >
-                  <X size={22} />
+                  <X size={20} />
                 </motion.span>
               </button>
             </div>
 
-            {/* ── Scrollable nav items ── */}
-            <div className="flex-1 overflow-y-auto px-6 py-6">
-              <div className="flex flex-col gap-3 w-full">
-                {navLinks.map((link, i) => (
-                  <motion.button
-                    key={link.href}
-                    custom={i}
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    onClick={() => navigateToSection(link.href)}
-                    className={`
-                      w-full rounded-2xl px-6 py-4 text-center text-lg font-medium
-                      transition-all duration-300 border
-                      ${activeSection === link.href
-                        ? "bg-white/10 text-white border-white/20 shadow-[0_0_24px_rgba(59,130,246,0.2)]"
-                        : "text-white/70 border-white/[0.06] hover:bg-white/[0.06] hover:text-white"
-                      }
-                    `}
-                  >
-                    {link.name}
-                  </motion.button>
-                ))}
+            {/* ── Scrollable Premium Card List ── */}
+            <div className="flex-1 overflow-y-auto px-6 py-5 z-10 relative">
+              <div className="flex flex-col gap-2.5 w-full">
+                {navLinks.map((link, i) => {
+                  const IconComponent = link.icon;
+                  const isActive = activeSection === link.href;
+
+                  return (
+                    <motion.button
+                      key={link.href}
+                      custom={i}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigateToSection(link.href)}
+                      className={`
+                        w-full rounded-2xl py-3 px-4 text-left transition-all duration-300
+                        border relative flex items-center justify-between group overflow-hidden
+                        ${isActive
+                          ? "bg-gradient-to-r from-white/[0.06] to-white/[0.02] border-white/15 shadow-[0_4px_20px_rgba(139,92,246,0.06),inset_0_1px_1px_rgba(255,255,255,0.1)]"
+                          : "bg-gradient-to-b from-white/[0.03] to-transparent border-white/[0.04] hover:border-white/8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
+                        }
+                      `}
+                    >
+                      {/* Active indicator bar */}
+                      {isActive && (
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-accent-cyan to-accent-purple rounded-r-sm" />
+                      )}
+
+                      <div className="flex items-center gap-3">
+                        {/* Glow Icon Container */}
+                        <div 
+                          className={`w-9 h-9 rounded-xl flex items-center justify-center relative shrink-0 overflow-hidden border border-white/[0.06]`}
+                          style={{
+                            background: isActive
+                              ? "linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(139,92,246,0.12) 100%)"
+                              : "rgba(255,255,255,0.02)",
+                            boxShadow: isActive ? "0 0 12px rgba(6,182,212,0.08)" : "none"
+                          }}
+                        >
+                          <IconComponent 
+                            className={`w-[18px] h-[18px] transition-colors duration-300 ${
+                              isActive ? "text-accent-cyan" : "text-white/50 group-hover:text-white/80"
+                            }`} 
+                          />
+                        </div>
+
+                        {/* Title text */}
+                        <div className="flex flex-col">
+                          <span className={`text-[15px] font-semibold tracking-wide transition-colors duration-300 ${
+                            isActive ? "text-white" : "text-white/70 group-hover:text-white/90"
+                          }`}>
+                            {link.name}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Right Indicator (arrow or pulsing active dot) */}
+                      <div className="flex items-center">
+                        {isActive ? (
+                          <div className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-cyan shadow-[0_0_6px_#06b6d4]"></span>
+                          </div>
+                        ) : (
+                          <ArrowUpRight className="w-[14px] h-[14px] text-white/10 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white/30" />
+                        )}
+                      </div>
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* ── Fixed bottom CTA ── */}
-            <div className="shrink-0 px-6 pb-8 pt-4"
-              style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+            {/* ── Fixed Bottom Premium CTA ── */}
+            <div className="shrink-0 px-6 pb-6 pt-3 z-10"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.06)", backgroundColor: "rgba(5, 8, 22, 0.4)" }}
             >
               <motion.button
                 custom={navLinks.length}
@@ -349,17 +414,19 @@ export default function Navbar() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
+                whileTap={{ scale: 0.96 }}
                 onClick={() => navigateToSection("#contact")}
                 className="
-                  w-full rounded-2xl py-4 text-lg font-semibold text-white
-                  transition-all duration-300
+                  w-full rounded-xl py-3 text-base font-bold text-white
+                  transition-all duration-300 select-none flex items-center justify-center gap-2
                 "
                 style={{
-                  background: "linear-gradient(135deg, #06b6d4 0%, #8b5cf6 50%, #3b82f6 100%)",
-                  boxShadow: "0 0 32px rgba(139,92,246,0.45), 0 0 64px rgba(6,182,212,0.15)",
+                  background: "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
+                  boxShadow: "0 4px 20px rgba(139,92,246,0.22), 0 0 40px rgba(6,182,212,0.08)",
                 }}
               >
                 Hire Me
+                <ArrowUpRight className="w-4 h-4" />
               </motion.button>
             </div>
           </motion.div>
@@ -371,16 +438,19 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-4 border-b border-white/[0.06]"
-            : "py-6 bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 ${
+          scrolled ? "py-4" : "py-4"
         } ${isOpen ? "pointer-events-none md:pointer-events-auto" : ""}`}
-        style={scrolled ? {
-          background: "rgba(5, 8, 22, 0.7)",
-          WebkitBackdropFilter: "blur(24px)",
-          backdropFilter: "blur(24px)",
-        } : {}}
+        style={{
+          background: scrolled ? "rgba(5, 8, 22, 0.75)" : "rgba(5, 8, 22, 0)",
+          WebkitBackdropFilter: scrolled ? "blur(24px) saturate(180%)" : "blur(0px)",
+          backdropFilter: scrolled ? "blur(24px) saturate(180%)" : "blur(0px)",
+          borderBottom: scrolled
+            ? "1px solid rgba(255, 255, 255, 0.06)"
+            : "1px solid rgba(255, 255, 255, 0)",
+          transition:
+            "background 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease, border-color 0.4s ease, padding 0.3s ease",
+        }}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* LOGO — hidden on mobile while overlay is open (overlay has its own) */}
@@ -445,11 +515,7 @@ export default function Navbar() {
             aria-label="Open menu"
             className={`${
               isOpen ? "hidden" : "md:hidden"
-            } relative z-[60] text-white rounded-xl p-2 transition-colors duration-200`}
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-            }}
+            } relative z-[60] text-white p-2 transition-opacity duration-200 hover:opacity-70`}
           >
             <Menu size={24} />
           </button>
