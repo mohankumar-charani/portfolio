@@ -16,6 +16,32 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scrolling when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      // Prevent background scrolling on iOS Safari
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = "unset";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
@@ -42,7 +68,7 @@ export default function Navbar() {
         boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
       } : {}}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between relative z-50">
         {/* Logo */}
         <a href="#home" className="text-2xl font-display font-bold tracking-tighter">
           <span className="text-gradient">MK</span>
@@ -67,14 +93,6 @@ export default function Navbar() {
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center space-x-4">
           <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-white hover:text-accent-cyan transition-colors"
-          >
-            Resume
-          </a>
-          <a
             href="#contact"
             className="glow-border relative inline-flex h-10 items-center justify-center rounded-lg bg-secondary px-6 font-medium text-white transition-transform hover:scale-105"
           >
@@ -97,64 +115,48 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -12, scaleY: 0.95 }}
-            animate={{ opacity: 1, y: 0, scaleY: 1 }}
-            exit={{ opacity: 0, y: -12, scaleY: 0.95 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center min-h-screen bg-black/40 supports-[backdrop-filter]:bg-black/20 md:hidden"
             style={{
-              background: "rgba(5, 8, 22, 0.18)",
-              backdropFilter: "blur(36px)",
-              WebkitBackdropFilter: "blur(36px)",
-              borderTop: "1px solid rgba(255,255,255,0.07)",
-              borderBottom: "1px solid rgba(255,255,255,0.07)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07)",
-              transformOrigin: "top",
+              WebkitBackdropFilter: "blur(24px)",
+              backdropFilter: "blur(24px)",
             }}
-            className="absolute top-full left-0 right-0 flex flex-col items-center py-6 space-y-1 md:hidden"
           >
-            {navLinks.map((link, i) => (
+            <div className="flex flex-col items-center w-full max-w-sm px-6 space-y-2 mt-16">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                  className="w-full text-center text-lg font-medium text-white/80 hover:text-white rounded-xl py-3 px-6 transition-all duration-200"
+                  style={{ background: "rgba(255,255,255,0)" }}
+                  onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0)"}
+                >
+                  {link.name}
+                </motion.a>
+              ))}
+
+              {/* Divider */}
+              <div className="w-full border-t border-white/[0.06] my-4" />
+
               <motion.a
-                key={link.name}
-                href={link.href}
+                href="#contact"
                 onClick={() => setIsOpen(false)}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.2 }}
-                className="w-10/12 text-center text-base font-medium text-white/80 hover:text-white rounded-xl py-3 px-6 transition-all duration-200"
-                style={{ background: "rgba(255,255,255,0)" }}
-                onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
-                onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0)"}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navLinks.length * 0.05, duration: 0.3 }}
+                className="mt-4 w-full text-center rounded-xl bg-gradient-primary py-3 font-medium text-white shadow-[0_0_20px_rgba(30,136,229,0.3)] hover:shadow-[0_0_30px_rgba(30,136,229,0.5)] transition-all duration-300"
               >
-                {link.name}
+                Hire Me
               </motion.a>
-            ))}
-
-            {/* Divider */}
-            <div className="w-10/12 border-t border-white/[0.06] my-1" />
-
-            <motion.a
-              href="/resume.pdf"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: navLinks.length * 0.04, duration: 0.2 }}
-              className="w-10/12 text-center text-base font-medium text-secondary-text hover:text-white rounded-xl py-3 px-6 transition-all duration-200"
-              style={{ background: "rgba(255,255,255,0)" }}
-              onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
-              onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0)"}
-            >
-              Resume
-            </motion.a>
-
-            <motion.a
-              href="#contact"
-              onClick={() => setIsOpen(false)}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: (navLinks.length + 1) * 0.04, duration: 0.2 }}
-              className="mt-2 w-10/12 text-center rounded-xl bg-gradient-primary py-3 font-medium text-white shadow-lg hover:opacity-90 transition-opacity"
-            >
-              Hire Me
-            </motion.a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
