@@ -98,7 +98,7 @@ export default function Contact() {
                   </div>
                 </a>
 
-                <a href="https://github.com/PariseMohankumar" target="_blank" rel="noopener noreferrer" className="flex items-center text-secondary-text hover:text-accent-purple transition-colors group">
+                <a href="https://github.com/Mohankumar-parise" target="_blank" rel="noopener noreferrer" className="flex items-center text-secondary-text hover:text-accent-purple transition-colors group">
                   <div className="w-12 h-12 aspect-square rounded-full glass flex items-center justify-center mr-4 shrink-0 group-hover:scale-110 transition-transform">
                     <FaGithub className="w-5 h-5 text-white" />
                   </div>
