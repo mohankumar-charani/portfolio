@@ -15,7 +15,7 @@ export default function Pricing() {
         "Mobile-first Responsive Design",
         "Basic SEO Setup",
         "Contact Form Integration",
-        "1 Month Free Support"
+        "15 days Free Support"
       ],
       popular: false
     },
@@ -30,7 +30,7 @@ export default function Pricing() {
         "Advanced SEO Optimization",
         "CMS Integration",
         "Performance Optimization",
-        "3 Months Free Support"
+        "1 Months Free Support"
       ],
       popular: true
     },
@@ -45,7 +45,7 @@ export default function Pricing() {
         "Admin Dashboard & Analytics",
         "REST API Integration",
         "Database Design & Setup",
-        "6 Months Free Support"
+        "3 Months Free Support"
       ],
       popular: false
     }
