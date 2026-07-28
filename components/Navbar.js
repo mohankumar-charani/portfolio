@@ -50,7 +50,7 @@ export default function Navbar() {
       { name: "Skills", href: "#skills", icon: Cpu, gradient: "from-cyan-500/20 to-emerald-500/20" },
       { name: "Services", href: "#services", icon: Briefcase, gradient: "from-violet-500/20 to-fuchsia-500/20" },
       { name: "Projects", href: "#projects", icon: Code2, gradient: "from-blue-500/20 to-indigo-500/20" },
-      // { name: "Pricing", href: "#pricing", icon: CreditCard, gradient: "from-pink-500/20 to-rose-500/20" },
+      { name: "Pricing", href: "#pricing", icon: CreditCard, gradient: "from-pink-500/20 to-rose-500/20" },
       { name: "Contact", href: "#contact", icon: Mail, gradient: "from-amber-500/20 to-orange-500/20" },
     ],
     []
