@@ -9,8 +9,8 @@ import Skills from "@/components/Skills";
 import Services from "@/components/Services";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
-// import Testimonials from "@/components/Testimonials";
-// import Pricing from "@/components/Pricing";
+import Testimonials from "@/components/Testimonials";
+import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -118,8 +118,8 @@ export default function Home() {
       <Services />
       <Projects />
       <Experience />
-      // <Testimonials />
-      // <Pricing />
+      <Testimonials />
+      <Pricing />
       <Contact />
       <Footer />
     </main>
